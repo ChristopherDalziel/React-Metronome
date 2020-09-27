@@ -5,9 +5,10 @@ const Metronome = () => {
   const { playing, setPlaying } = useState(false);
   let [bpm, setBpm] = useState(100);
 
-  const handleBpmChange = (event) => {
-    const bpmValue = event.target.value;
-    setBpm = bpmValue;
+  const onBpmChange = (e) => {
+    e.preventDefault();
+    let newBpmValue = e.target.value;
+    setBpm(newBpmValue);
   };
 
   return (
@@ -19,7 +20,13 @@ const Metronome = () => {
       <div className="metronome">
         <div className="metronome-bpm">
           <h2 className="metronome-bpm--current">{bpm} BPM</h2>
-          <input type="range" min="60" max="240" value={bpm} />
+          <input
+            type="range"
+            min="60"
+            max="240"
+            value={bpm}
+            onChange={onBpmChange}
+          />
         </div>
         <button className="metronome-button">
           {playing === true ? "Stop" : "Start"}
