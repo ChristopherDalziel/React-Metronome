@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 
 const Metronome = () => {
-  const { playing, setPlaying } = useState(false);
+  const [playing, setPlaying] = useState(false);
   let [bpm, setBpm] = useState(100);
 
   const onBpmChange = (e) => {
@@ -28,7 +28,10 @@ const Metronome = () => {
             onChange={onBpmChange}
           />
         </div>
-        <button className="metronome-button">
+        <button
+          onClick={() => setPlaying(!playing)}
+          className="metronome-button"
+        >
           {playing === true ? "Stop" : "Start"}
         </button>
       </div>
