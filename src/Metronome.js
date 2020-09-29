@@ -1,15 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
+import soundOne from "./assets/click1.wav";
+import soundTwo from "./assets/click2.wav";
 
 const Metronome = () => {
   const [playing, setPlaying] = useState(false);
-  let [bpm, setBpm] = useState(100);
+  const [count, setCount] = useState(0);
+  const [bpm, setBpm] = useState(100);
+  const timer = useRef();
+  const beatsPerMeasure = 4;
+  const click1 = new Audio(soundOne);
+  const click2 = new Audio(soundTwo);
+
+  const playClickCallback = useCallback(() => {
+    if (count % beatsPerMeasure === 0) {
+      click2.play();
+    } else {
+      click1.play();
+    }
+    setCount((prevCount) => (prevCount + 1) % beatsPerMeasure);
+  }, [count, click1, click2]);
+
+  useEffect(() => {
+    if (playing) {
+      clearInterval(timer.current);
+      timer.current = setInterval(playClickCallback, (60 / bpm) * 1000);
+    } else {
+      clearInterval(timer.current);
+    }
+  }, [bpm, playing, playClickCallback]);
+
+  const startStop = () => {
+    if (playing) {
+      setPlaying(false);
+    } else {
+      setCount(0);
+      setPlaying(true);
+    }
+  };
 
   const onBpmChange = (e) => {
-    e.preventDefault();
-    let newBpmValue = e.target.value;
-    setBpm(newBpmValue);
+    setBpm(e.target.value);
+
+    if (playing) {
+      setCount(0);
+    }
   };
+
+  console.log(count);
 
   return (
     <div className="App">
@@ -28,12 +66,10 @@ const Metronome = () => {
             onChange={onBpmChange}
           />
         </div>
-        <button
-          onClick={() => setPlaying(!playing)}
-          className="metronome-button"
-        >
+        <button onClick={() => startStop()} className="metronome-button">
           {playing === true ? "Stop" : "Start"}
         </button>
+        <button onClick={() => setBpm(100)}>Reset</button>
       </div>
     </div>
   );
