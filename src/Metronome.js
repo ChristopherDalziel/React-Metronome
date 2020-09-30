@@ -59,6 +59,7 @@ const Metronome = () => {
         <div className="metronome-bpm">
           <h2 className="metronome-bpm--current">{bpm} BPM</h2>
           <input
+            className="metronome-bpm--slider"
             type="range"
             min="60"
             max="240"
