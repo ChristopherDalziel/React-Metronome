@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.metronome-bpm--slider {
+  width: 40vw;
+}

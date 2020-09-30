@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
 import soundOne from "./assets/click1.wav";
-import soundTwo from "./assets/click2.wav";
+// import soundTwo from "./assets/click2.wav";
 
 const Metronome = () => {
   const [playing, setPlaying] = useState(false);
@@ -10,16 +10,13 @@ const Metronome = () => {
   const timer = useRef();
   const beatsPerMeasure = 4;
   const click1 = new Audio(soundOne);
-  const click2 = new Audio(soundTwo);
+  // const click2 = new Audio(soundTwo);
 
   const playClickCallback = useCallback(() => {
-    if (count % beatsPerMeasure === 0) {
-      click2.play();
-    } else {
-      click1.play();
-    }
+    click1.play();
+
     setCount((prevCount) => (prevCount + 1) % beatsPerMeasure);
-  }, [count, click1, click2]);
+  }, [count, click1]);
 
   useEffect(() => {
     if (playing) {
@@ -52,8 +49,7 @@ const Metronome = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>one one-thousand..</h1>
-        <h1>two one-thousand..</h1>
+        <h1>{count}</h1>
       </header>
       <div className="metronome">
         <div className="metronome-bpm">
