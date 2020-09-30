@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/core";
 import "./App.css";
 import soundOne from "./assets/click1.wav";
 // import soundTwo from "./assets/click2.wav";
@@ -11,6 +13,24 @@ const Metronome = () => {
   const beatsPerMeasure = 4;
   const click1 = new Audio(soundOne);
   // const click2 = new Audio(soundTwo);
+
+  const clapAnimation = keyframes`
+  from, 0%, 50%, 100%, to {
+    transform: scale(1);
+  }
+
+  0% {
+    transform: scale(3);
+  }
+
+  50% {
+    transform: scale(2);
+  }
+`;
+
+  const Clap = styled.div`
+    animation: ${clapAnimation} 1s ${playing === true ? "infinite" : "none"};
+  `;
 
   const playClickCallback = useCallback(() => {
     click1.play();
@@ -44,12 +64,10 @@ const Metronome = () => {
     }
   };
 
-  console.log(count);
-
   return (
     <div className="App">
       <header className="App-header">
-        <h1>{count}</h1>
+        <Clap>👏🏻</Clap>
       </header>
       <div className="metronome">
         <div className="metronome-bpm">
