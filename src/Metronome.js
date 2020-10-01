@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { keyframes } from "@emotion/core";
 import "./App.css";
 import soundOne from "./assets/click1.wav";
-// import soundTwo from "./assets/click2.wav";
+import soundTwo from "./assets/click2.wav";
 
 const Metronome = () => {
   const [playing, setPlaying] = useState(false);
@@ -12,7 +12,7 @@ const Metronome = () => {
   const timer = useRef();
   const beatsPerMeasure = 4;
   const click1 = new Audio(soundOne);
-  // const click2 = new Audio(soundTwo);
+  const click2 = new Audio(soundTwo);
 
   const clapAnimation = keyframes`
   from, 0%, 50%, 100%, to {
@@ -33,10 +33,14 @@ const Metronome = () => {
   `;
 
   const playClickCallback = useCallback(() => {
-    click1.play();
+    if (count % beatsPerMeasure === 0) {
+      click2.play();
+    } else {
+      click1.play();
+    }
 
     setCount((prevCount) => (prevCount + 1) % beatsPerMeasure);
-  }, [count, click1]);
+  }, [count, click1, click2]);
 
   useEffect(() => {
     if (playing) {
@@ -76,7 +80,7 @@ const Metronome = () => {
             className="metronome-bpm--slider"
             type="range"
             min="60"
-            max="240"
+            max="175"
             value={bpm}
             onChange={onBpmChange}
           />
