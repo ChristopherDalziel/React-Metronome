@@ -1,9 +1,28 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/core";
-import "./App.css";
 import soundOne from "./assets/click1.wav";
 import soundTwo from "./assets/click2.wav";
+
+const App = styled.div`
+  text-align: center;
+  font-family: Helvetica, Sans-Serif;
+`;
+
+const AppHeader = styled.header`
+  background-color: #282c34;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+`;
+
+const BpmSlider = styled.input`
+  width: 40vw;
+`;
 
 const Metronome = () => {
   const [playing, setPlaying] = useState(false);
@@ -20,7 +39,7 @@ const Metronome = () => {
   }
 
   0% {
-    transform: scale(3);
+    transform: scale(6);
   }
 
   50% {
@@ -68,15 +87,16 @@ const Metronome = () => {
     }
   };
 
+  console.log(count);
   return (
-    <div className="App">
-      <header className="App-header">
-        <Clap>👏🏻</Clap>
-      </header>
-      <div className="metronome">
+    <App>
+      <AppHeader className="App-header">
+        <Clap>{count === 1 ? "👏🏻" : "🥁"}</Clap>
+      </AppHeader>
+      <div>
         <div className="metronome-bpm">
           <h2 className="metronome-bpm--current">{bpm} BPM</h2>
-          <input
+          <BpmSlider
             className="metronome-bpm--slider"
             type="range"
             min="60"
@@ -90,7 +110,7 @@ const Metronome = () => {
         </button>
         <button onClick={() => setBpm(100)}>Reset</button>
       </div>
-    </div>
+    </App>
   );
 };
 
